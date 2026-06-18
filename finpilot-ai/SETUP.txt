@@ -1,0 +1,69 @@
+=======================================
+  FINPILOT AI — FULL SETUP GUIDE
+=======================================
+
+STEP 1 — INSTALL PREREQUISITES
+--------------------------------
+Download and install:
+  • Node.js v20+     → https://nodejs.org
+  • Python 3.11+     → https://python.org
+  • PostgreSQL 15    → https://postgresql.org/download
+  • Git              → https://git-scm.com
+  • VS Code          → https://code.visualstudio.com
+
+STEP 2 — SET UP POSTGRESQL DATABASE
+-------------------------------------
+Open terminal and run:
+
+  psql -U postgres
+
+Then run these SQL commands:
+  CREATE USER finpilot WITH PASSWORD 'finpilot123';
+  CREATE DATABASE finpilot OWNER finpilot;
+  GRANT ALL PRIVILEGES ON DATABASE finpilot TO finpilot;
+  \q
+
+STEP 3 — BACKEND SETUP
+------------------------
+  cd backend
+  python -m venv venv
+
+  # Windows:
+  venv\Scripts\activate
+  # Mac/Linux:
+  source venv/bin/activate
+
+  pip install -r requirements.txt
+  cp .env.example .env
+
+Edit backend/.env and set your OPENAI_API_KEY:
+  OPENAI_API_KEY=sk-your-key-here
+
+Start backend:
+  uvicorn main:app --reload --port 8000
+
+Test: http://localhost:8000/docs
+
+STEP 4 — FRONTEND SETUP
+------------------------
+  cd frontend
+  npm install
+  cp .env.local.example .env.local
+
+Start frontend:
+  npm run dev
+
+Open: http://localhost:3000
+
+STEP 5 — TEST
+--------------
+  1. Visit http://localhost:3000/register
+  2. Create an account
+  3. Add some transactions
+  4. Visit the Dashboard to see charts
+  5. Use AI Chat to ask finance questions
+
+DOCKER (optional - runs everything at once):
+  docker-compose up --build
+
+=======================================
