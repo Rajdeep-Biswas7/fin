@@ -1,5 +1,8 @@
+# pyrefly: ignore [missing-import]
 from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Text, Boolean
+# pyrefly: ignore [missing-import]
 from sqlalchemy.orm import relationship
+# pyrefly: ignore [missing-import]
 from sqlalchemy.sql import func
 from database import Base
 
@@ -8,9 +11,9 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
-    email = Column(String, unique=True, index=True, nullable=False)
-    password = Column(String, nullable=False)
+    name = Column(String(255), nullable=False)
+    email = Column(String(255), unique=True, index=True, nullable=False)
+    password = Column(String(255), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     transactions = relationship("Transaction", back_populates="user", cascade="all, delete")
@@ -24,12 +27,12 @@ class Transaction(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    merchant = Column(String, nullable=False)
+    merchant = Column(String(255), nullable=False)
     amount = Column(Float, nullable=False)
-    category = Column(String, default="Uncategorized")
+    category = Column(String(255), default="Uncategorized")
     date = Column(DateTime(timezone=True), server_default=func.now())
     note = Column(Text, nullable=True)
-    type = Column(String, default="expense")  # expense | income
+    type = Column(String(50), default="expense")  # expense | income
 
     user = relationship("User", back_populates="transactions")
 
@@ -39,7 +42,7 @@ class Goal(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    goal_name = Column(String, nullable=False)
+    goal_name = Column(String(255), nullable=False)
     target_amount = Column(Float, nullable=False)
     current_amount = Column(Float, default=0.0)
     deadline = Column(DateTime(timezone=True), nullable=True)
@@ -53,7 +56,7 @@ class Subscription(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
-    service_name = Column(String, nullable=False)
+    service_name = Column(String(255), nullable=False)
     monthly_cost = Column(Float, nullable=False)
     is_active = Column(Boolean, default=True)
     next_billing = Column(DateTime(timezone=True), nullable=True)
@@ -71,3 +74,4 @@ class ChatHistory(Base):
     timestamp = Column(DateTime(timezone=True), server_default=func.now())
 
     user = relationship("User", back_populates="chat_history")
+

@@ -1,8 +1,9 @@
+# pyrefly: ignore [missing-import]
 from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    DATABASE_URL: str = "postgresql://finpilot:finpilot123@localhost:5432/finpilot"
+    DATABASE_URL: str = "sqlite:///./finpilot.db"
     REDIS_URL: str = "redis://localhost:6379"
     SECRET_KEY: str = "your-super-secret-key-change-in-production"
     ALGORITHM: str = "HS256"
